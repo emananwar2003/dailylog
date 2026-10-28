@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Tracker 2025 - Remaining 118 Days</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0066cc, #004499);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+        }
+
+        .sheet-tabs {
+            background: #f8f9fa;
+            border-bottom: 2px solid #0066cc;
+            padding: 10px 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            gap: 5px;
+        }
+
+        .sheet-tab {
+            background: #e9ecef;
+            border: 1px solid #dee2e6;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            font-size: 12px;
+            min-width: 120px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .sheet-tab:hover {
+            background: #d1ecf1;
+        }
+
+        .sheet-tab.active {
+            background: #0066cc;
+            color: white;
+            border-color: #0066cc;
+        }
+
+        .sheet-content {
+            padding: 20px;
+        }
+
+        .date-display {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 2px solid #0066cc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .header-row {
+            background: #0066cc;
+            color: white;
+        }
+
+        .header-row th {
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .data-row {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .data-row:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .data-row:hover {
+            background: #e3f2fd;
+        }
+
+        .data-row td {
+            padding: 12px 15px;
+        }
+
+        input[type="text"], input[type="time"] {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input[type="text"]:focus, input[type="time"]:focus {
+            background: rgba(0, 102, 204, 0.1);
+            border-radius: 4px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .nav-btn {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #0056b3;
+        }
+
+        .nav-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .current-sheet-info {
+            font-size: 16px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .export-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e8;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .export-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+
+        .export-btn:hover {
+            background: #218838;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
+        .add-row-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .reason-cell {
+            position: relative;
+        }
+
+        .reason-input-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .color-picker {
+            position: relative;
+        }
+
+        .color-dropdown {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            min-width: 80px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .color-dropdown:hover {
+            background: #e9ecef;
+        }
+
+        .color-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 140px;
+        }
+
+        .color-options.show {
+            display: block;
+        }
+
+        .color-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .color-option:last-child {
+            border-bottom: none;
+        }
+
+        .color-option:hover {
+            background: #f8f9fa;
+        }
+
+        /* Color highlighting classes */
+        
+        .highlight-red-light { background-color: #ffebee !important; }
+        .highlight-red { background-color: #ffcdd2 !important; }
+        .highlight-red-dark { background-color: #ef9a9a !important; }
+        .highlight-green-light { background-color: #e8f5e8 !important; }
+        .highlight-green { background-color: #c8e6c9 !important; }
+        .highlight-green-dark { background-color: #a5d6a7 !important; }
+        .highlight-orange-light { background-color: #fff3e0 !important; }
+        .highlight-orange { background-color: #ffe0b2 !important; }
+        .highlight-orange-dark { background-color: #ffcc02 !important; }
+
+        /* Override hover effects for highlighted cells */
+        .data-row.highlight-red-light:hover { background-color: #ffebee !important; }
+        .data-row.highlight-red:hover { background-color: #ffcdd2 !important; }
+        .data-row.highlight-red-dark:hover { background-color: #ef9a9a !important; }
+        .data-row.highlight-green-light:hover { background-color: #e8f5e8 !important; }
+        .data-row.highlight-green:hover { background-color: #c8e6c9 !important; }
+        .data-row.highlight-green-dark:hover { background-color: #a5d6a7 !important; }
+        .data-row.highlight-orange-light:hover { background-color: #fff3e0 !important; }
+        .data-row.highlight-orange:hover { background-color: #ffe0b2 !important; }
+        .data-row.highlight-orange-dark:hover { background-color: #ffcc02 !important; }
+
+        @media (max-width: 768px) {
+            .sheet-tabs {
+                padding: 10px;
+            }
+            
+            .sheet-tab {
+                min-width: 100px;
+                font-size: 10px;
+                padding: 6px 10px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .reason-input-container {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Daily Tracker 2026</h1>
+            <p> Remaining Days of 2025 (oct 28 - Dec 31)</p>
+        </div>
+
+        <div class="sheet-tabs" id="sheetTabs">
+            <!-- Tabs will be generated by JavaScript -->
+        </div>
+
+        <div class="sheet-content">
+            <div class="date-display" id="dateDisplay">
+                September 4, 2025
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr class="header-row">
+                            <th style="width: 20%;">From Time</th>
+                            <th style="width: 20%;">To Time</th>
+                            <th style="width: 50%;">Reason</th>
+                            <th style="width: 10%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Rows will be generated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="add-row-section">
+                <button class="nav-btn" onclick="addRow()" style="background: #28a745;">+ Add Row</button>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" onclick="previousSheet()">← Previous Day</button>
+                <div class="current-sheet-info" id="sheetInfo">Sheet 1 of 118</div>
+                <button class="nav-btn" id="nextBtn" onclick="nextSheet()">Next Day →</button>
+            </div>
+
+            <div class="export-section">
+                <h3>Export Options</h3>
+                <p>Save your data as CSV files or print individual sheets</p>
+                <button class="export-btn" onclick="exportCurrentSheet()">Export Current Sheet</button>
+                <button class="export-btn" onclick="exportAllSheets()">Export All Sheets</button>
+                <button class="export-btn" onclick="printCurrentSheet()">Print Current Sheet</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate dates for remaining 118 days of 2025
+        const startDate = new Date(2026, 9, 29); // September 4, 2025 (month is 0-indexed)
+        const dates = [];
+        const sheetData = {}; // Store data for all sheets
+
+        for (let i = 0; i < 64 ; i++) {
+            const date = new Date(startDate);
+            date.setDate(startDate.getDate() + i);
+            dates.push(date);
+            
+            // Initialize empty data for each sheet (10 rows initially)
+            const dateKey = date.toDateString();
+            sheetData[dateKey] = [];
+            for (let j = 0; j < 10; j++) {
+                sheetData[dateKey].push({ fromTime: '', toTime: '', reason: '', highlight: 'none' });
+            }
+        }
+
+        let currentSheetIndex = 0;
+
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function createTabs() {
+            const tabsContainer = document.getElementById('sheetTabs');
+            tabsContainer.innerHTML = '';
+
+            dates.forEach((date, index) => {
+                const tab = document.createElement('div');
+                tab.className = `sheet-tab ${index === currentSheetIndex ? 'active' : ''}`;
+                tab.textContent = formatDate(date);
+                tab.onclick = () => switchToSheet(index);
+                tabsContainer.appendChild(tab);
+            });
+        }
+
+        function createTableRows() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            const currentDate = dates[currentSheetIndex];
+            const dateKey = currentDate.toDateString();
+            const data = sheetData[dateKey];
+
+            for (let i = 0; i < data.length; i++) {
+                const row = document.createElement('tr');
+                row.className = `data-row highlight-${data[i].highlight}`;
+                
+                row.innerHTML = `
+                    <td>
+                        <input type="time" 
+                               value="${data[i].fromTime}" 
+                               onchange="updateData(${i}, 'fromTime', this.value)">
+                    </td>
+                    <td>
+                        <input type="time" 
+                               value="${data[i].toTime}" 
+                               onchange="updateData(${i}, 'toTime', this.value)">
+                    </td>
+                    <td class="reason-cell">
+                        <div class="reason-input-container">
+                            <input type="text" 
+                                   placeholder="Enter reason..." 
+                                   value="${data[i].reason}"
+                                   onchange="updateData(${i}, 'reason', this.value)"
+                                   style="flex: 1;">
+                            <div class="color-picker">
+                                <div class="color-dropdown" onclick="toggleColorOptions(${i})" id="colorBtn${i}">
+                                    ${getColorName(data[i].highlight)}
+                                </div>
+                                <div class="color-options" id="colorOptions${i}">
+                                    <div class="color-option" onclick="setHighlight(${i}, 'none')">None</div>
+                                    <div class="color-option highlight-red-light" onclick="setHighlight(${i}, 'red-light')">Red Light</div>
+                                    <div class="color-option highlight-red" onclick="setHighlight(${i}, 'red')">Red</div>
+                                    <div class="color-option highlight-red-dark" onclick="setHighlight(${i}, 'red-dark')">Red Dark</div>
+                                    <div class="color-option highlight-green-light" onclick="setHighlight(${i}, 'green-light')">Green Light</div>
+                                    <div class="color-option highlight-green" onclick="setHighlight(${i}, 'green')">Green</div>
+                                    <div class="color-option highlight-green-dark" onclick="setHighlight(${i}, 'green-dark')">Green Dark</div>
+                                    <div class="color-option highlight-orange-light" onclick="setHighlight(${i}, 'orange-light')">Orange Light</div>
+                                    <div class="color-option highlight-orange" onclick="setHighlight(${i}, 'orange')">Orange</div>
+                                    <div class="color-option highlight-orange-dark" onclick="setHighlight(${i}, 'orange-dark')">Orange Dark</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="text-align: center;">
+                        <button class="delete-btn" onclick="deleteRow(${i})">×</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            }
+        }
+
+        function updateData(rowIndex, field, value) {
+            const currentDate = dates[currentSheetIndex];
+            const dateKey = currentDate.toDateString();
+            sheetData[dateKey][rowIndex][field] = value;
+        }
+
+        function addRow() {
+            const currentDate = dates[currentSheetIndex];
+            const dateKey = currentDate.toDateString();
+            sheetData[dateKey].push({ fromTime: '', toTime: '', reason: '', highlight: 'none' });
+            createTableRows();
+        }
+
+        function deleteRow(rowIndex) {
+            const currentDate = dates[currentSheetIndex];
+            const dateKey = currentDate.toDateString();
+            if (sheetData[dateKey].length > 1) { // Keep at least one row
+                sheetData[dateKey].splice(rowIndex, 1);
+                createTableRows();
+            }
+        }
+
+        function getColorName(highlight) {
+            const colorNames = {
+                'none': 'Color',
+                'red-light': 'Red Light',
+                'red': 'Red',
+                'red-dark': 'Red Dark',
+                'green-light': 'Green Light',
+                'green': 'Green',
+                'green-dark': 'Green Dark',
+                'orange-light': 'Orange Light',
+                'orange': 'Orange',
+                'orange-dark': 'Orange Dark'
+            };
+            return colorNames[highlight] || 'Color';
+        }
+
+        function toggleColorOptions(rowIndex) {
+            // Close all other dropdowns
+            document.querySelectorAll('.color-options').forEach((dropdown, index) => {
+                if (index !== rowIndex) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            const dropdown = document.getElementById(`colorOptions${rowIndex}`);
+            dropdown.classList.toggle('show');
+        }
+
+        function setHighlight(rowIndex, color) {
+            const currentDate = dates[currentSheetIndex];
+            const dateKey = currentDate.toDateString();
+            sheetData[dateKey][rowIndex].highlight = color;
+            
+            // Close all dropdowns
+            document.querySelectorAll('.color-options').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+            
+            // Refresh the table to show new highlight
+            createTableRows();
+        }
+
+        // Close color dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.color-picker')) {
+                document.querySelectorAll('.color-options').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
+            }
+        });
+
+        function switchToSheet(index) {
+            currentSheetIndex = index;
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            // Update date display
+            document.getElementById('dateDisplay').textContent = formatDate(dates[currentSheetIndex]);
+            
+            // Update sheet info
+            document.getElementById('sheetInfo').textContent = `Sheet ${currentSheetIndex + 1} of 118`;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSheetIndex === 0;
+            document.getElementById('nextBtn').disabled = currentSheetIndex === 117;
+            
+            // Recreate tabs and table
+            createTabs();
+            createTableRows();
+            
+            // Scroll to active tab
+            const activeTab = document.querySelector('.sheet-tab.active');
+            if (activeTab) {
+                activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            }
+        }
+
+        function previousSheet() {
+            if (currentSheetIndex > 0) {
+                switchToSheet(currentSheetIndex - 1);
+            }
+        }
+
+        function nextSheet() {
+            if (currentSheetIndex < 117) {
+                switchToSheet(currentSheetIndex + 1);
+            }
+        }
+
+        function exportCurrentSheet() {
+            const currentDate = dates[currentSheetIndex];
+            const dateKey = currentDate.toDateString();
+            const data = sheetData[dateKey];
+            
+            let csv = 'From Time,To Time,Reason,Highlight\n';
+            data.forEach(row => {
+                csv += `"${row.fromTime}","${row.toTime}","${row.reason}","${getColorName(row.highlight)}"\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Daily_Tracker_${formatDate(currentDate).replace(/,|\s/g, '_')}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function exportAllSheets() {
+            let allCsv = '';
+            
+            dates.forEach(date => {
+                const dateKey = date.toDateString();
+                const data = sheetData[dateKey];
+                
+                allCsv += `\n=== ${formatDate(date)} ===\n`;
+                allCsv += 'From Time,To Time,Reason,Highlight\n';
+                data.forEach(row => {
+                    if (row.fromTime || row.toTime || row.reason) {
+                        allCsv += `"${row.fromTime}","${row.toTime}","${row.reason}","${getColorName(row.highlight)}"\n`;
+                    }
+                });
+            });
+            
+            const blob = new Blob([allCsv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Daily_Tracker_2025_All_Sheets.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function printCurrentSheet() {
+            const currentDate = dates[currentSheetIndex];
+            const printWindow = window.open('', '_blank');
+            const dateKey = currentDate.toDateString();
+            const data = sheetData[dateKey];
+            
+            let printContent = `
+                <html>
+                <head>
+                    <title>Daily Tracker - ${formatDate(currentDate)}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th, td { border: 1px solid #000; padding: 10px; text-align: left; }
+                        th { background: #0066cc; color: white; font-weight: bold; }
+                        h1 { color: #0066cc; text-align: center; }
+                        .red-light { background-color: #ffebee; }
+                        .red { background-color: #ffcdd2; }
+                        .red-dark { background-color: #ef9a9a; }
+                        .green-light { background-color: #e8f5e8; }
+                        .green { background-color: #c8e6c9; }
+                        .green-dark { background-color: #a5d6a7; }
+                        .orange-light { background-color: #fff3e0; }
+                        .orange { background-color: #ffe0b2; }
+                        .orange-dark { background-color: #ffcc02; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Daily Tracker - ${formatDate(currentDate)}</h1>
+                    <table>
+                        <thead>
+                            <tr><th>From Time</th><th>To Time</th><th>Reason</th><th>Priority</th></tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            data.forEach(row => {
+                const colorClass = row.highlight !== 'none' ? row.highlight : '';
+                printContent += `<tr class="${colorClass}"><td>${row.fromTime}</td><td>${row.toTime}</td><td>${row.reason}</td><td>${getColorName(row.highlight)}</td></tr>`;
+            });
+            
+            printContent += `
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>
